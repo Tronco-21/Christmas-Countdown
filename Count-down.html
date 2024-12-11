@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Conto alla rovescia per Natale</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background-color: #1e1e2f;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Sfondo con effetto sfocato */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://img.freepik.com/foto-gratuito/lanterna-di-natale-con-ramo-di-abete-e-decorazione-su-tavola-nevosa-sfondo-sfocato-ai-generativo_1258-150803.jpg') no-repeat center center/cover;
+            filter: blur(8px);
+            z-index: -1;
+        }
+        h1 {
+            color: #ff4444;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px #000;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        #countdown {
+            font-size: 1.8em;
+            margin-top: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+        /* Effetto neve */
+        .snow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .snowflake {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall 5s linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+        /* Media query per dispositivi mobili */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            #countdown {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🎄 Il Natale sta arrivando! 🎅</h1>
+    <div id="countdown"></div>
+
+    <div class="snow"></div>
+
+    <script>
+        // Aggiorna il conto alla rovescia
+        function updateCountdown() {
+            const now = new Date();
+            const christmas = new Date(now.getFullYear(), 11, 25); // 25 dicembre
+
+            if (now > christmas) {
+                christmas.setFullYear(now.getFullYear() + 1);
+            }
+
+            const diff = christmas - now;
+            const giorni = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const ore = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minuti = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secondi = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerText =
+                `${giorni} giorni, ${ore} ore, ${minuti} minuti e ${secondi} secondi`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Genera fiocchi di neve
+        const snowContainer = document.querySelector('.snow');
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            snowContainer.appendChild(snowflake);
+
+            setTimeout(() => snowflake.remove(), 5000);
+        }
+
+        setInterval(createSnowflake, 100);
+    </script>
+
+    <!-- Sfondo sfocato -->
+    <div class="background"></div>
+</body>
+</html>
